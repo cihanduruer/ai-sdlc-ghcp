@@ -123,18 +123,24 @@ Labels remain on the Issue; the workflow synchronizes only the Project `Status`.
 
 ### F. Configure repository variables
 
+Repository variables are non-secret configuration values that tell the workflows **who handles local work** and **which GitHub Project to update**. Keeping these values outside the workflow files lets every attendee connect the same automation to their own username and Project without editing code.
+
 Open **Settings > Secrets and variables > Actions > Variables**.
 
-| Variable | Example | Purpose |
+| Variable | What to enter | How the workflows use it |
 | --- | --- | --- |
-| `HUMAN_MAINTAINER` | `octocat` | Assignee for VS Code, CLI, or human lanes |
-| `PROJECT_OWNER` | `contoso` | User or organization that owns the Project |
-| `PROJECT_OWNER_TYPE` | `organization` | `organization` or `user` |
-| `PROJECT_NUMBER` | `5` | Number visible in the Project URL |
+| `HUMAN_MAINTAINER` | Your GitHub username, without `@` | The daily router assigns work selected for VS Code, Copilot CLI, or human handling to this account. |
+| `PROJECT_OWNER` | The login of the user or organization that owns the Project | Project-sync workflows use this login to locate the Project created in Step E. |
+| `PROJECT_OWNER_TYPE` | `user` for a personal Project or `organization` for an organization Project | Tells the GitHub GraphQL API which owner type to query. |
+| `PROJECT_NUMBER` | The number at the end of the Project URL, such as `5` in `/projects/5` | Identifies the specific Project whose `Status` field the workflows update. |
 
 ![Actions variables page with New repository variable highlighted](images/setup/04-repository-variables.png)
 
-Use **New repository variable** once for each row in the table.
+Use **New repository variable** once for each row in the table. These values identify destinations and are safe to store as variables; the credentials that authorize Project access are stored separately as the `PROJECT_TOKEN` secret in Step H.
+
+After configuration, the daily router uses `HUMAN_MAINTAINER` for local or human work. The issue-triage, delegation, QA, and release workflows use the three `PROJECT_*` values with `PROJECT_TOKEN` to add the issue to the correct Project and move its `Status` through Backlog, Triage, Ready, In progress, QA, and Done.
+
+**Expected evidence:** the **Variables** tab lists all four names. Values are hidden from this guide because each attendee supplies their own. If Project Status does not update during the smoke test, compare the owner type and Project number with the Project URL.
 
 ### G. Configure the Copilot assignment token
 
