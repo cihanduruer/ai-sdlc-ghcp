@@ -64,9 +64,9 @@ Under **Settings > General > Features**, select **Issues**.
 
 ![Repository General settings with the Issues feature enabled](images/setup/01-enable-issues.png)
 
-![Repository Actions permissions with Allow all actions and reusable workflows selected](images/setup/01-repository-capabilities.png)
-
 Under **Settings > Actions > General**, select **Allow all actions and reusable workflows**, then select **Save**.
+
+![Repository Actions permissions with Allow all actions and reusable workflows selected](images/setup/01-repository-capabilities.png)
 
 ### D. Create repository labels
 
@@ -77,6 +77,10 @@ Open **Actions > 00 - Set up repository labels > Run workflow**.
 Select **Run workflow** in the highlighted control and run it from `main`.
 
 **Expected evidence:** the workflow succeeds and Issues shows labels from `.github/labels.json`, including `status:triaged`, `ready-for-building`, `develop-with-ai`, and `ready-for-qa`.
+
+![Label definitions in .github/labels.json](images/setup/02-label-definitions.png)
+
+The repository provides the complete label names, colors, and descriptions shown above. If the labels do not appear under **Issues > Labels**, open the failed workflow run, correct the reported permission or Actions setting, and run it again.
 
 ### E. Create the GitHub Project
 
