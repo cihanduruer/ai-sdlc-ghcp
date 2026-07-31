@@ -99,7 +99,15 @@ Add optional views grouped by `Area`, `Complexity`, or `Agent` labels. Labels re
 
 ![GitHub Projects page with New project highlighted](images/setup/03-create-project.png)
 
-Use the highlighted **New project** button, then choose a Board layout.
+Use the highlighted **New project** button. Under **Start from scratch**, select **Board**.
+
+![Create project dialog with Board highlighted](images/setup/03-select-board.png)
+
+Enter a project name, optionally import existing issues from the workshop repository, and select **Create project**.
+
+![New Board form with the project name and Create project controls highlighted](images/setup/03-create-board.png)
+
+**Expected evidence:** the new Project opens in a Board view. If **Board** is not visible, select **Start from scratch** in the left menu.
 
 ### F. Configure repository variables
 
