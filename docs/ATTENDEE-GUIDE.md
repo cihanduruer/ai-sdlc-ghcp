@@ -6,6 +6,36 @@ Start in an empty repository and deliver one Northstar Hotel requirement through
 
 `Issue -> triage -> human approval -> route -> implementation -> Copilot review -> QA -> simulated release`
 
+```mermaid
+flowchart TD
+    A["Requirement issue<br/>Project: Backlog"] --> B["01 - Triage issue<br/>status:triaged"]
+    B --> C["Project: Triage"]
+    C -->|Human adds ready-for-building| D["Project: Ready"]
+    D --> E["02 - Route top ready issues<br/>select agent:* lane"]
+    E --> F{"Implementation surface"}
+    F -->|agent:vscode| G["VS Code Copilot<br/>fullstack"]
+    F -->|agent:copilot-app| H["Copilot on GitHub<br/>frontend"]
+    F -->|agent:copilot-cli| I["Copilot CLI"]
+    F -->|agent:cloud| J["Copilot cloud agent<br/>clean-code or documentation"]
+    F -->|agent:human| K["Human maintainer"]
+    H -->|Human adds develop-with-ai| L["Project: In progress"]
+    J -->|Human adds develop-with-ai| L
+    G --> L
+    I --> L
+    K --> L
+    L --> M["Non-draft pull request<br/>Closes issue"]
+    M --> N["Build and test"]
+    M --> O["04 - Automatic Copilot code review"]
+    N --> P["clean-code and qa evidence"]
+    O --> P
+    P --> Q["05 - Promote reviewed work<br/>ready-for-qa"]
+    Q --> R["Project: QA"]
+    R -->|Human adds release-to-production| S["06 - Test and build release artifact"]
+    S --> T["released<br/>Project: Done"]
+```
+
+**Human decisions are the labeled arrows.** Automation can classify, route, delegate, review, test, and synchronize the Project, but it cannot approve scope or release.
+
 Keep moving when a checkpoint passes. Use the recovery path only when it does not.
 
 ## Before the 90-minute clock - Complete GitHub setup
@@ -464,25 +494,27 @@ The `clean-code` agent uses original Northstar-specific guidance inspired by gen
 10. Read every Copilot review comment. Apply or explicitly dismiss suggestions; Copilot comments are advice, not approval.
 11. Ensure the PR remains linked to the issue with `Closes #<issue>`.
 12. After Copilot submits its review, inspect **05 - Promote reviewed work to QA**.
-13. Merge the pull request after event branch policy requirements are satisfied.
+13. Merge the pull request into `main` after event branch policy requirements are satisfied.
+14. Open **Code**, switch to `main`, and confirm the merged commit and implementation files are present before approving release.
 
-**Checkpoint:** the clean-code agent produced a maintainability note, the QA agent produced test evidence, the linked issue has `ready-for-qa`, and the Project shows **QA**.
+**Checkpoint:** the clean-code agent produced a maintainability note, the QA agent produced test evidence, the linked issue has `ready-for-qa`, the Project shows **QA**, and the approved code is merged into `main`.
 
 **Recovery:** if workflow 05 reports that it recorded a non-Copilot review, wait for Copilot; rerunning the human-review event cannot promote the issue. If workflow 04 comments that automatic review could not start, confirm repository policy first, then use the **Reviewers** control only as the workshop fallback. If time is short, combine the clean-code and QA requests into one QA pass. An event organizer may add `ready-for-qa` only after showing evidence of a completed Copilot review.
 
 ## Phase 6 - Approve and simulate release (78-87 minutes)
 
-**Outcome:** a final human decision produces tested release evidence but no deployment.
+**Outcome:** a final human decision tests the merged `main` branch and produces release evidence but no deployment.
 
-1. Review the acceptance criteria and CI evidence.
-2. Add `release-to-production` to the issue.
-3. Watch **06 - Simulate production release**.
-4. Open the workflow artifact `simulated-production-release`.
-5. Inspect `manifest.json` and the built `web` directory.
+1. Confirm the pull request is merged and the approved implementation exists on `main`. Workflow 06 deliberately ignores unmerged pull-request code.
+2. Review the acceptance criteria and CI evidence.
+3. Add `release-to-production` to the issue.
+4. Watch **06 - Simulate production release** check out `main`, rerun tests, and build the web assets.
+5. Open the workflow artifact `simulated-production-release`.
+6. Inspect `manifest.json` and the built `web` directory.
 
-**Checkpoint:** all release validation passes, an artifact exists, the issue has `released`, and the Project shows **Done**.
+**Checkpoint:** the manifest identifies the released `main` commit, all release validation passes, an artifact exists, the issue has `released`, and the Project shows **Done**.
 
-**Recovery:** remove and re-add `release-to-production` after fixing a failed test on `main`. Never add `released` manually.
+**Recovery:** if the PR is still open, remove `release-to-production`, merge the approved PR, and re-add the label. After any failed release test, fix and merge the correction to `main`, then remove and re-add `release-to-production`. Never add `released` manually.
 
 ## Phase 7 - Reflect (87-90 minutes)
 

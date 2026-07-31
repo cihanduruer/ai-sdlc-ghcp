@@ -66,7 +66,7 @@ The comment displays the outcome and numeric score. This is intentionally inspec
 - Projects v2 uses a separate project token.
 - Review requests use `GITHUB_TOKEN` with Pull requests write.
 - Privileged workflows never check out or execute untrusted fork code.
-- Release checks out `main`, runs tests, builds static assets, and uploads an artifact only.
+- Release checks out `main`, so the reviewed pull request must be merged before a human adds `release-to-production`. It then runs tests, builds static assets, and uploads an artifact only; unmerged PR code is never included.
 
 ## Copilot Automation option
 

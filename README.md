@@ -16,7 +16,7 @@ This repository is both the **working reference implementation** and the **autom
 - A human adds `release-to-production`; Actions reruns tests and creates a release artifact without deploying anywhere.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[Requirement issue] --> B[Automatic triage]
     B --> C[Project: Triage]
     C -->|Human adds ready-for-building| D[Daily issue router]
