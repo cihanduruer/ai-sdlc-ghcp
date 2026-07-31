@@ -181,16 +181,36 @@ Never place the token in an issue, prompt, workflow file, screenshot, or commit.
 
 ### H. Configure the Project token
 
-Projects v2 is outside the repository `GITHUB_TOKEN` boundary. Create a separate fine-grained token with:
+Projects v2 is outside the repository `GITHUB_TOKEN` boundary. `PROJECT_TOKEN` lets the workflows find the Project from Step E, add issues to it, and update its `Status` field. Keep this credential separate from `COPILOT_AGENT_TOKEN` because the two tokens authorize different operations.
 
-- Organization Projects: read and write, or User Projects: read and write
-- Repository Issues: read
+For the workshop, use a short-lived **personal access token (classic)** with the `project` and `repo` scopes. GitHub's fine-grained tokens currently cannot access Projects owned by a personal account. For a production organization Project, prefer a GitHub App with organization Projects read/write and repository Issues read permissions.
 
-Store it as `PROJECT_TOKEN`. For a production system, prefer a GitHub App installation token and rotate credentials according to organization policy.
+1. In GitHub, select your profile picture, then **Settings**.
+2. Select **Developer settings > Personal access tokens > Tokens (classic)**.
+3. Select **Generate new token > Generate new token (classic)** and authenticate again if prompted.
+4. Enter a note such as `iCSU MiniHack Project sync`.
+5. Choose the shortest practical expiration that covers the event.
+6. Select these scopes:
+
+   - `project` - read and write access to Projects
+   - `repo` - access to the workshop repository and its issues
+
+7. Select **Generate token**.
+8. If the repository belongs to an organization that uses SAML SSO, select **Configure SSO** beside the new token and authorize the organization.
+9. Copy the token immediately; GitHub shows its value only once.
+10. Return to the workshop repository and open **Settings > Secrets and variables > Actions**.
+11. On the **Secrets** tab, select **New repository secret**.
 
 ![Actions secrets page with the Project token secret control highlighted](images/setup/06-project-secret.png)
 
-Select **New repository secret** and use the exact name `PROJECT_TOKEN`.
+12. Enter the exact name `PROJECT_TOKEN`, paste the token into **Secret**, and select **Add secret**.
+13. After the event, delete the repository secret and revoke the token from **Developer settings**.
+
+Never reuse `COPILOT_AGENT_TOKEN` here or expose either token in an issue, workflow file, screenshot, prompt, or commit.
+
+**Expected evidence:** `PROJECT_TOKEN` appears in the repository **Actions secrets** list. During the smoke test, **01 - Triage issue** adds the issue to the Project and changes its `Status` from Backlog to Triage.
+
+**Recovery:** if Project synchronization is skipped or reports `Project ... was not found`, confirm that `PROJECT_OWNER`, `PROJECT_OWNER_TYPE`, and `PROJECT_NUMBER` match the Project URL. For an organization Project, also confirm token approval or SSO authorization and organization policy.
 
 ### I. Smoke test the configuration
 
