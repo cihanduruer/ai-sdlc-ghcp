@@ -195,6 +195,10 @@ For the workshop, use a short-lived **personal access token (classic)** with the
    - `project` - read and write access to Projects
    - `repo` - access to the workshop repository and its issues
 
+![Classic personal access token form with the repo scope highlighted](images/setup/06-project-token-scopes.png)
+
+The screenshot highlights `repo`. Continue scrolling in **Select scopes** and also select `project`. Do not select `admin:org`; it grants broader organization access than this workshop needs.
+
 7. Select **Generate token**.
 8. If the repository belongs to an organization that uses SAML SSO, select **Configure SSO** beside the new token and authorize the organization.
 9. Copy the token immediately; GitHub shows its value only once.
