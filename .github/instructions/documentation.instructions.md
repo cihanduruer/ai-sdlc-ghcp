@@ -9,4 +9,4 @@ applyTo: "**/*.md,docs/**/*"
 - Keep GitHub UI names, labels, filenames, commands, and secrets exact and consistent with the repository.
 - Clearly distinguish mandatory workshop steps from optional production hardening.
 - Never place a real token, organization name, email address, or repository URL in documentation.
-- Update lifecycle diagrams and the prerequisites email when a setup dependency changes.
+- Update lifecycle diagrams, setup guidance, and attendee prerequisites when a setup dependency changes.

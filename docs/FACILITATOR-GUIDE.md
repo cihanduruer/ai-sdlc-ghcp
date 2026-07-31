@@ -11,12 +11,11 @@
 ## One week before
 
 1. Publish this repository at the URL used in event communications.
-2. Replace placeholders in `docs/AUDIENCE-EMAIL.md` and send it.
-3. Confirm attendee licenses and organization policies for Copilot cloud agent and code review.
-4. Confirm every attendee configured `https://packagefeedproxy.microsoft.io/npm/` as the NPM registry.
-5. Decide whether attendees create personal repositories or repositories in an event organization.
-6. Decide who creates and owns `COPILOT_AGENT_TOKEN` and `PROJECT_TOKEN`. Do not distribute tokens in chat or email.
-7. Create a fallback reference Project and pre-run all workflows.
+2. Confirm attendee licenses and organization policies for Copilot cloud agent and code review.
+3. Confirm every attendee configured `https://packagefeedproxy.microsoft.io/npm/` as the NPM registry.
+4. Decide whether attendees create personal repositories or repositories in an event organization.
+5. Decide who creates and owns `COPILOT_AGENT_TOKEN` and `PROJECT_TOKEN`. Do not distribute tokens in chat or email.
+6. Create a fallback reference Project and pre-run all workflows.
 
 ## One day before
 
