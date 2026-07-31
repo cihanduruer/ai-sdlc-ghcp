@@ -62,9 +62,9 @@ In repository **Settings**:
 
 Copilot code review submits comments; it does not approve a pull request or replace required human approval.
 
-![Repository settings with Issues, Rules, Actions, and Copilot highlighted](images/setup/01-repository-capabilities.png)
+![Repository Actions permissions with Allow all actions and reusable workflows selected](images/setup/01-repository-capabilities.png)
 
-The red rectangles identify the repository areas used to enable Issues, configure the `main` ruleset, verify Actions, and review Copilot access.
+Under **Settings > Actions > General**, select **Allow all actions and reusable workflows**, then select **Save**.
 
 ### D. Create repository labels
 
