@@ -132,7 +132,23 @@ Open **Settings > Secrets and variables > Actions > Variables**.
 | `HUMAN_MAINTAINER` | Your GitHub username, without `@` | The daily router assigns work selected for VS Code, Copilot CLI, or human handling to this account. |
 | `PROJECT_OWNER` | The login of the user or organization that owns the Project | Project-sync workflows use this login to locate the Project created in Step E. |
 | `PROJECT_OWNER_TYPE` | `user` for a personal Project or `organization` for an organization Project | Tells the GitHub GraphQL API which owner type to query. |
-| `PROJECT_NUMBER` | The number at the end of the Project URL, such as `5` in `/projects/5` | Identifies the specific Project whose `Status` field the workflows update. |
+| `PROJECT_NUMBER` | Your Project's number from its URL | Identifies the specific Project whose `Status` field the workflows update. |
+
+Derive the three `PROJECT_*` values from the Project URL instead of copying the examples:
+
+1. Open the Project created in Step E and copy its URL from the browser address bar.
+2. Match the URL to the correct pattern:
+
+   | Project URL pattern | `PROJECT_OWNER_TYPE` | `PROJECT_OWNER` | `PROJECT_NUMBER` |
+   | --- | --- | --- | --- |
+   | `https://github.com/users/<login>/projects/<number>` | `user` | `<login>` | `<number>` |
+   | `https://github.com/orgs/<login>/projects/<number>` | `organization` | `<login>` | `<number>` |
+
+3. Use the number immediately after `/projects/`. If the open Board URL continues with `/views/1`, ignore the view number. For example, in `/projects/12/views/1`, the Project number is `12`, not `1`.
+4. Validate the values by constructing one of these URLs with your entries and opening it:
+   - personal Project: `https://github.com/users/PROJECT_OWNER/projects/PROJECT_NUMBER`
+   - organization Project: `https://github.com/orgs/PROJECT_OWNER/projects/PROJECT_NUMBER`
+5. Continue only if that URL opens the Project created in Step E. A different Project or a 404 means at least one value is incorrect.
 
 ![Actions variables page with New repository variable highlighted](images/setup/04-repository-variables.png)
 
@@ -140,7 +156,7 @@ Use **New repository variable** once for each row in the table. These values ide
 
 After configuration, the daily router uses `HUMAN_MAINTAINER` for local or human work. The issue-triage, delegation, QA, and release workflows use the three `PROJECT_*` values with `PROJECT_TOKEN` to add the issue to the correct Project and move its `Status` through Backlog, Triage, Ready, In progress, QA, and Done.
 
-**Expected evidence:** the **Variables** tab lists all four names. Values are hidden from this guide because each attendee supplies their own. If Project Status does not update during the smoke test, compare the owner type and Project number with the Project URL.
+**Expected evidence:** the **Variables** tab lists all four names, and the reconstructed Project URL opens the intended Board. Values are hidden from this guide because each attendee supplies their own. If Project Status does not update during the smoke test, repeat the URL validation before checking the token.
 
 ### G. Configure the Copilot assignment token
 
