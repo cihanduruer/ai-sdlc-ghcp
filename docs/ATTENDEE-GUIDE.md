@@ -144,27 +144,40 @@ After configuration, the daily router uses `HUMAN_MAINTAINER` for local or human
 
 ### G. Configure the Copilot assignment token
 
-The workflow `GITHUB_TOKEN` cannot use the Copilot cloud-agent assignment API. Create a short-lived **fine-grained personal access token** owned by a user who:
+The workflow `GITHUB_TOKEN` cannot assign the Copilot cloud agent. This separate token lets the delegation workflow act on behalf of an authorized user after an attendee adds both `ready-for-building` and `develop-with-ai`.
 
-- has repository write permission,
-- has Copilot cloud-agent access, and
-- is allowed by organization policy to delegate work.
+Use an account that has repository write permission, Copilot cloud-agent access, and permission under your organization policy to delegate work.
 
-Grant repository permissions:
+1. In GitHub, select your profile picture, then **Settings**.
+2. Select **Developer settings > Personal access tokens > Fine-grained tokens**.
+3. Select **Generate new token** and authenticate again if prompted.
+4. Enter a recognizable token name such as `iCSU MiniHack Copilot assignment`.
+5. Choose the shortest practical expiration that covers the event.
+6. Under **Resource owner**, select the user or organization that owns the workshop repository.
+7. Under **Repository access**, choose **Only select repositories**, then select the workshop repository.
+8. Under **Repository permissions**, grant:
 
-- Metadata: read
-- Actions: read and write
-- Contents: read and write
-- Issues: read and write
-- Pull requests: read and write
+   - Metadata: read
+   - Actions: read and write
+   - Contents: read and write
+   - Issues: read and write
+   - Pull requests: read and write
 
-Store it as the repository Actions secret `COPILOT_AGENT_TOKEN`. Never place the token in an issue, prompt, workflow file, or commit. Delete or rotate it after the event.
+9. Select **Generate token**. If organization approval is required, wait until the token is approved and no longer marked `pending`.
+10. Copy the token immediately; GitHub shows its value only once.
+11. Return to the workshop repository and open **Settings > Secrets and variables > Actions**.
+12. On the **Secrets** tab, select **New repository secret**.
 
 ![Actions secrets page with the Copilot agent secret control highlighted](images/setup/05-copilot-secret.png)
 
-Select **New repository secret** and use the exact name `COPILOT_AGENT_TOKEN`.
+13. Enter the exact name `COPILOT_AGENT_TOKEN`, paste the token into **Secret**, and select **Add secret**.
+14. After the event, delete the repository secret and revoke or rotate the fine-grained token.
 
-The cloud-agent assignment API is a preview capability and may be controlled by enterprise policy. If unavailable, manually assign Copilot from the Issue **Assignees** control.
+Never place the token in an issue, prompt, workflow file, screenshot, or commit.
+
+**Expected evidence:** `COPILOT_AGENT_TOKEN` appears in the repository **Actions secrets** list; GitHub does not display its value again. During the smoke test, adding `develop-with-ai` after `ready-for-building` starts **03 - Delegate approved issue to Copilot**, and Copilot appears as the issue assignee.
+
+**Recovery:** the cloud-agent assignment API may be controlled by enterprise policy. If the workflow reports a policy or access error, confirm that the token is approved and its owner has Copilot access. If assignment remains unavailable, manually assign Copilot from the Issue **Assignees** control.
 
 ### H. Configure the Project token
 
