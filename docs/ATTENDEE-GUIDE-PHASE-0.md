@@ -111,7 +111,21 @@ The repository provides the complete label names, colors, and descriptions shown
 
 Keep the field name exactly `Status`; the workflow uses it to move issues between columns.
 
-5. Optional: select **+ New view** and create filtered views for the repository labels. GitHub Projects cannot group directly by labels.
+5. Rename the existing Board view to **Full board**:
+   1. Open the **View** menu beside the filter bar.
+   2. Select **Rename view**.
+   3. Enter `Full board` and press <kbd>Enter</kbd>.
+
+6. Optional: create three label-focused **Table** views. Keep **Full board** as the Status board; do not replace it.
+   1. To the right of the **Full board** tab, select **+ New view**.
+
+      ![GitHub Project view tabs with New view marked by a red box](images/setup/03-add-table-view.png)
+
+   2. Open the new view's **View** menu. Under **Layout**, select **Table**. If **Table** is already selected, leave it selected.
+   3. In the same menu, select **Rename view**, enter the view name from the table below, and press <kbd>Enter</kbd>.
+   4. Select **Filter by keyword or by field**, then paste the matching filter.
+   5. Open **View** again and select **Save changes**.
+   6. Repeat these steps for the other two views.
 
 | View name | Filter |
 | --- | --- |
@@ -119,9 +133,11 @@ Keep the field name exactly `Status`; the workflow uses it to move issues betwee
 | Complexity | `label:"complexity:low","complexity:medium","complexity:high"` |
 | Agent | `label:"agent:vscode","agent:copilot-app","agent:copilot-cli","agent:cloud","agent:human"` |
 
-Labels remain on the Issue; the workflow synchronizes only the Project `Status`.
+Use **Table**, not Board, for these three optional views. GitHub Projects can filter by Issue labels, but Board columns cannot group directly by labels. Labels remain on the Issue; the workflow synchronizes only the Project `Status`.
 
-**Expected evidence:** the Project opens in a Board view with the six Status columns. If **Board** is not visible during creation, select **Start from scratch** in the left menu.
+**Expected evidence:** **Full board** opens as a Board with the six Status columns. If you created the optional views, **Area**, **Complexity**, and **Agent** appear as separate Table tabs and show only issues carrying their listed labels.
+
+**Recovery:** if the six Status columns disappear, select **Full board**. If a label view is empty, confirm its layout is **Table**, paste the filter again, and select **View > Save changes**. During initial project creation, if **Board** is not visible, select **Start from scratch** in the left menu.
 
 ### F. Configure repository variables
 
