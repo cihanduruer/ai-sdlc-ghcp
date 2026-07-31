@@ -78,8 +78,7 @@ npm run build
 
 ## Start the hack
 
-1. Organizers: follow the [Facilitator guide](docs/FACILITATOR-GUIDE.md).
-2. Attendees and repository administrators: follow the unified [setup and 90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
-3. Everyone: use the [Workflow reference](docs/WORKFLOW.md) and [Phase 3 sample issue library](docs/SAMPLE-ISSUE-LIBRARY.md).
+1. Attendees, organizers, and repository administrators: follow the unified [setup and 90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
+2. Use the [Workflow reference](docs/WORKFLOW.md) and [Phase 3 sample issue library](docs/SAMPLE-ISSUE-LIBRARY.md) during the hack.
 
 The automation is workshop-safe by design: deterministic triage, explicit human gates, dedicated token boundaries, least-privilege workflow permissions, and no real deployment.

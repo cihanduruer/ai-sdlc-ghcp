@@ -353,11 +353,12 @@ Official references:
 3. Submit the issue.
 4. Watch **Actions > 01 - Triage issue**.
 5. Inspect the labels and triage comment. Ask yourself whether the area and complexity are reasonable.
-6. Open the Project and confirm Status moved to **Triage**.
+6. Wait for **Sync issue to GitHub Project** to finish.
+7. Open the Project's **Full board** view, clear any filters, and find the issue in the **Triage** column. Opening the issue from the card should also show Project Status **Triage** in its sidebar.
 
-**Checkpoint:** the issue has one `area:*`, `kind:*`, `priority:*`, `complexity:*`, and `status:triaged` label.
+**Checkpoint:** the issue has one `area:*`, `kind:*`, `priority:*`, `complexity:*`, and `status:triaged` label, and its Project card is in **Triage**.
 
-**Recovery:** rerun the setup-label workflow, edit the issue with a harmless space, and inspect the triage run logs.
+**Recovery:** if labels are missing, edit the issue with a harmless space and inspect **01 - Triage issue**. If labels exist but the card is absent or still in **Backlog**, inspect **Sync issue to GitHub Project**, clear board filters, and confirm the Project has a Status option named exactly `Triage`.
 
 ## Phase 3 - Exercise human governance and routing (42-52 minutes)
 
@@ -412,17 +413,23 @@ For an event group, create the four core examples from the [sample issue library
 
 **Outcome:** the issue becomes a focused branch and pull request.
 
+Before implementation, open the Project's **Full board** view and confirm the approved issue is in **Ready**. Local lanes (`agent:vscode` and `agent:copilot-cli`) are human-led, so move their card to **In progress** when you begin. Remote lanes move automatically when you add `develop-with-ai`.
+
 ### `agent:vscode`
 
-Assign the issue to yourself. In VS Code Copilot Agent mode, run `/implement-approved-issue` or paste the prompt file. Review the plan, keep the branch focused, validate, push, and open a pull request.
+Assign the issue to yourself and move its Project card to **In progress**. In VS Code Copilot Agent mode, run `/implement-approved-issue` or paste the prompt file. Review the plan, keep the branch focused, validate, push, and open a pull request.
 
 ### `agent:copilot-cli`
 
-Assign the issue to yourself. From the repository root run Copilot CLI, reference the issue, and ask it to implement and validate the requirement using repository instructions. Push the branch and open a pull request.
+Assign the issue to yourself and move its Project card to **In progress**. From the repository root run Copilot CLI, reference the issue, and ask it to implement and validate the requirement using repository instructions. Push the branch and open a pull request.
 
 ### `agent:copilot-app` or `agent:cloud`
 
-Add `develop-with-ai`. The delegation workflow enforces `ready-for-building`, then assigns `copilot-swe-agent[bot]`. Watch the agent session and resulting pull request.
+1. Add `develop-with-ai`. The delegation workflow enforces `ready-for-building`, then assigns `copilot-swe-agent[bot]`.
+2. Wait for **Sync issue to GitHub Project** and **03 - Delegate approved issue to Copilot** to finish.
+3. Open the Project's **Full board** view, clear any filters, and confirm the issue moved from **Ready** to **In progress**.
+4. Open the issue from the card and confirm its sidebar shows Project Status **In progress**.
+5. Watch the agent session and resulting pull request.
 
 For remote delegation, the workflow derives the custom agent from triage labels:
 
@@ -437,9 +444,9 @@ The issue comment names the selected custom agent. All remote lanes use `copilot
 
 The `clean-code` agent uses original Northstar-specific guidance inspired by general principles popularized by Robert C. Martin: clear names, cohesive functions, explicit errors, restrained abstraction, and focused tests. It does not reproduce the book.
 
-**Checkpoint:** a non-draft pull request exists, its body contains `Closes #<issue>`, and CI starts.
+**Checkpoint:** the Project card is in **In progress**, a non-draft pull request exists, its body contains `Closes #<issue>`, and CI starts.
 
-**Recovery:** if workflow 03 fails, open its **Assign Copilot cloud agent** log first. After correcting configuration or updating the workflow, remove and re-add `develop-with-ai` to create a new delegation event. If remote agent access or tokens remain blocked, manually assign Copilot in the issue UI; if that is also unavailable, use VS Code Agent mode with the same issue.
+**Recovery:** if `develop-with-ai` exists but the card remains **Ready**, inspect **Sync issue to GitHub Project**, clear board filters, and confirm the Project has a Status option named exactly `In progress`. If workflow 03 fails, open its **Assign Copilot cloud agent** log first. After correcting configuration or updating the workflow, remove and re-add `develop-with-ai` to create a new delegation event. If remote agent access or tokens remain blocked, manually assign Copilot in the issue UI; if that is also unavailable, use VS Code Agent mode with the same issue.
 
 ## Phase 5 - Review and promote to QA (68-78 minutes)
 
