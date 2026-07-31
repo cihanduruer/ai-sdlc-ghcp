@@ -11,7 +11,7 @@ This repository is both the **working reference implementation** and the **autom
 - A human approves work with `ready-for-building`.
 - A daily router recommends the best lane: VS Code Copilot, Copilot on GitHub, Copilot CLI, cloud agent, or a human.
 - A second human gate, `develop-with-ai`, delegates approved GitHub-hosted work to Copilot.
-- Copilot opens a pull request; CI, the `clean-code` and `qa` agents, and Copilot code review provide distinct validation evidence.
+- Copilot opens a pull request; CI starts and Copilot code review is requested automatically, while the `clean-code` and `qa` agents provide distinct validation evidence.
 - A completed Copilot review moves the linked issue to `ready-for-qa`.
 - A human adds `release-to-production`; Actions reruns tests and creates a release artifact without deploying anywhere.
 

@@ -58,7 +58,7 @@ In repository **Settings**:
 3. Confirm Copilot cloud agent access for the repository.
 4. Confirm the organization policy allows Copilot code review.
 
-The included workflow requests Copilot review when a non-draft pull request opens, so this workshop does not require a branch ruleset. Copilot code review submits comments; it does not approve a pull request or replace required human approval.
+The included workflow starts Copilot code review automatically when a non-draft pull request opens or a draft becomes ready. Attendees do not request Copilot manually. This workshop therefore does not require a branch ruleset. Copilot code review submits comments; it does not approve a pull request or replace required human approval.
 
 Under **Settings > General > Features**, select **Issues**.
 
@@ -444,7 +444,7 @@ The issue comment names the selected custom agent. All remote lanes use `copilot
 
 The `clean-code` agent uses original Northstar-specific guidance inspired by general principles popularized by Robert C. Martin: clear names, cohesive functions, explicit errors, restrained abstraction, and focused tests. It does not reproduce the book.
 
-**Checkpoint:** the Project card is in **In progress**, a non-draft pull request exists, its body contains `Closes #<issue>`, and CI starts.
+**Checkpoint:** the Project card is in **In progress**, a non-draft pull request exists, its body contains `Closes #<issue>`, CI starts, and **04 - Start automatic Copilot code review** begins without attendee action.
 
 **Recovery:** if `develop-with-ai` exists but the card remains **Ready**, inspect **Sync issue to GitHub Project**, clear board filters, and confirm the Project has a Status option named exactly `In progress`. If workflow 03 fails, open its **Assign Copilot cloud agent** log first. After correcting configuration or updating the workflow, remove and re-add `develop-with-ai` to create a new delegation event. If remote agent access or tokens remain blocked, manually assign Copilot in the issue UI; if that is also unavailable, use VS Code Agent mode with the same issue.
 
@@ -459,15 +459,16 @@ The `clean-code` agent uses original Northstar-specific guidance inspired by gen
 5. Select the repository's **qa** custom agent.
 6. Ask: `Verify this pull request against its linked issue. Produce a compact test matrix, run the required validation, and report blockers without changing product scope.`
 7. Record the QA agent's pass/fail evidence in the pull request.
-8. Confirm **04 - Request Copilot code review** requested Copilot.
-9. Read every Copilot review comment. Apply or explicitly dismiss suggestions; Copilot comments are advice, not approval.
-10. Ensure the PR remains linked to the issue with `Closes #<issue>`.
-11. After Copilot submits its review, inspect **05 - Promote reviewed work to QA**.
-12. Merge the pull request after event branch policy requirements are satisfied.
+8. Do not request a reviewer manually. Confirm **04 - Start automatic Copilot code review** completed and the PR shows Copilot under **Reviewers**.
+9. If a human submits a review first, workflow 05 records it as an intentional no-op; it does not promote the issue or show a misleading skipped job.
+10. Read every Copilot review comment. Apply or explicitly dismiss suggestions; Copilot comments are advice, not approval.
+11. Ensure the PR remains linked to the issue with `Closes #<issue>`.
+12. After Copilot submits its review, inspect **05 - Promote reviewed work to QA**.
+13. Merge the pull request after event branch policy requirements are satisfied.
 
 **Checkpoint:** the clean-code agent produced a maintainability note, the QA agent produced test evidence, the linked issue has `ready-for-qa`, and the Project shows **QA**.
 
-**Recovery:** if time is short, combine the clean-code and QA requests into one QA pass. If organization policy prevents automatic review, request Copilot from the Reviewers control. The facilitator may add `ready-for-qa` after showing evidence of a completed Copilot review.
+**Recovery:** if workflow 05 reports that it recorded a non-Copilot review, wait for Copilot; rerunning the human-review event cannot promote the issue. If workflow 04 comments that automatic review could not start, confirm repository policy first, then use the **Reviewers** control only as the workshop fallback. If time is short, combine the clean-code and QA requests into one QA pass. An event organizer may add `ready-for-qa` only after showing evidence of a completed Copilot review.
 
 ## Phase 6 - Approve and simulate release (78-87 minutes)
 

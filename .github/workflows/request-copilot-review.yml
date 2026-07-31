@@ -1,4 +1,4 @@
-name: 04 - Request Copilot code review
+name: 04 - Start automatic Copilot code review
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ jobs:
     env:
       GH_REPO: ${{ github.repository }}
     steps:
-      - name: Request Copilot reviewer
+      - name: Start Copilot review
         id: request
         continue-on-error: true
         env:
@@ -36,4 +36,4 @@ jobs:
         shell: bash
         run: |
           gh pr comment "$PR_NUMBER" --body \
-            "Automatic Copilot review could not be requested. Confirm the organization code-review policy or enable automatic Copilot review in the repository ruleset."
+            "Automatic Copilot code review could not start. Confirm the organization code-review policy or enable automatic Copilot review in the repository ruleset."

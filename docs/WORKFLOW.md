@@ -14,6 +14,10 @@
 
 No automation adds either approval label: `ready-for-building`, `develop-with-ai`, or `release-to-production`.
 
+Workflow **05 - Promote reviewed work to QA** observes every submitted review. Human reviews complete as an intentional no-op. Promotion requires a bot review identified by GitHub as either reviewer `copilot-pull-request-reviewer[bot]` or actor `Copilot`; this accommodates both event identity shapes without weakening the gate.
+
+Workflow **04 - Start automatic Copilot code review** runs when a non-draft pull request opens or a draft becomes ready. It adds Copilot as reviewer automatically; attendees only observe the request and respond to the eventual review. Manual reviewer selection is a recovery path, not a normal lifecycle step.
+
 ## Daily routing model
 
 The scheduled workflow runs at 07:00 UTC and can also be started manually. It considers open issues that are both triaged and ready for building, ranks priority before complexity and age, and selects at most one top issue per lane.
