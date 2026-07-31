@@ -15,9 +15,17 @@ In repository **Settings**:
 
 Copilot code review submits comments; it does not approve a pull request and does not replace required human approval.
 
+![Repository settings with Issues, Rules, Actions, and Copilot highlighted](images/setup/01-repository-capabilities.png)
+
+The red rectangles identify the repository areas used to enable Issues, configure the `main` ruleset, verify Actions, and review Copilot access.
+
 ## 2. Create repository labels
 
 Open **Actions > 00 - Set up repository labels > Run workflow**.
+
+![Set up repository labels workflow with Run workflow highlighted](images/setup/02-create-labels.png)
+
+Select **Run workflow** in the highlighted control and run it from `main`.
 
 Expected evidence: the workflow succeeds and Issues shows labels from `.github/labels.json`, including `status:triaged`, `ready-for-building`, `develop-with-ai`, and `ready-for-qa`.
 
@@ -36,6 +44,10 @@ Create a Projects v2 project with a Board view. Keep the field name `Status` and
 
 Add optional views grouped by `Area`, `Complexity`, or `Agent` labels. Labels remain on the Issue; Project Status is synchronized by workflow.
 
+![GitHub Projects page with New project highlighted](images/setup/03-create-project.png)
+
+Use the highlighted **New project** button, then choose a Board layout.
+
 ## 4. Configure repository variables
 
 Open **Settings > Secrets and variables > Actions > Variables**.
@@ -46,6 +58,10 @@ Open **Settings > Secrets and variables > Actions > Variables**.
 | `PROJECT_OWNER` | `contoso` | User or organization that owns the Project |
 | `PROJECT_OWNER_TYPE` | `organization` | `organization` or `user` |
 | `PROJECT_NUMBER` | `5` | Number visible in the Project URL |
+
+![Actions variables page with New repository variable highlighted](images/setup/04-repository-variables.png)
+
+Use **New repository variable** once for each row in the table.
 
 ## 5. Configure the Copilot assignment token
 
@@ -65,6 +81,10 @@ Grant repository permissions:
 
 Store it as the repository Actions secret `COPILOT_AGENT_TOKEN`. Never place the token in an issue, prompt, workflow file, or commit. Delete or rotate it after the event.
 
+![Actions secrets page with the Copilot agent secret control highlighted](images/setup/05-copilot-secret.png)
+
+Select **New repository secret** and use the exact name `COPILOT_AGENT_TOKEN`.
+
 The cloud-agent assignment API is a preview capability and may be controlled by enterprise policy. If unavailable, manually assign Copilot from the Issue **Assignees** control.
 
 ## 6. Configure the Project token
@@ -76,6 +96,10 @@ Projects v2 is outside the repository `GITHUB_TOKEN` boundary. Create a separate
 
 Store it as `PROJECT_TOKEN`. For a production system, prefer a GitHub App installation token and rotate credentials according to organization policy.
 
+![Actions secrets page with the Project token secret control highlighted](images/setup/06-project-secret.png)
+
+Select **New repository secret** and use the exact name `PROJECT_TOKEN`.
+
 ## 7. Smoke test the lifecycle
 
 1. Open a Requirement issue.
@@ -85,6 +109,10 @@ Store it as `PROJECT_TOKEN`. For a production system, prefer a GitHub App instal
 5. Run **02 - Route top ready issues** manually.
 6. Confirm the route comment and `agent:*` label.
 7. Do not add `develop-with-ai` until the workshop implementation phase.
+
+![New issue page with Product requirement highlighted](images/setup/07-smoke-test-issue.png)
+
+Start the smoke test with the highlighted **Product requirement** form.
 
 If project sync is skipped, recheck `PROJECT_*` variables, the token scope, and the exact Status option names.
 
