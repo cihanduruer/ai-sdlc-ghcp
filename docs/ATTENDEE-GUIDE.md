@@ -223,9 +223,12 @@ Never reuse `COPILOT_AGENT_TOKEN` here or expose either token in an issue, workf
 3. Wait for **01 - Triage issue**.
 4. Confirm the issue receives area, kind, priority, complexity, and `status:triaged`.
 5. Add `ready-for-building`.
-6. Run **02 - Route top ready issues** manually.
-7. Confirm the route comment and `agent:*` label.
-8. Close the temporary issue without adding `develop-with-ai`.
+6. Open the repository **Actions** tab.
+7. In the left workflow list, select **02 - Route top ready issues**.
+8. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
+9. Wait for the new workflow run to appear and finish successfully.
+10. Return to the issue and confirm the route comment and `agent:*` label.
+11. Close the temporary issue without adding `develop-with-ai`.
 
 ![New issue page with Product requirement highlighted](images/setup/07-smoke-test-issue.png)
 
@@ -303,9 +306,12 @@ Official references:
 
 1. Read the acceptance criteria again. Improve anything ambiguous.
 2. Add `ready-for-building`.
-3. Run **Actions > 02 - Route top ready issues > Run workflow**.
-4. Inspect the `agent:*` label and routing comment.
-5. Compare the result with the routing table in [Workflow reference](WORKFLOW.md).
+3. Open the repository **Actions** tab.
+4. In the left workflow list, select **02 - Route top ready issues**.
+5. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
+6. Wait for the new run to complete successfully.
+7. Return to the issue and inspect the `agent:*` label and routing comment.
+8. Compare the result with the routing table in [Workflow reference](WORKFLOW.md).
 
 For an event group, create all four requirement cards. The daily router selects the highest-ranked ready issue in each lane:
 
