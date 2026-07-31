@@ -1,6 +1,11 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { classifyIssue, chooseRoute, rankIssue } = require('./issue-automation')
+const {
+  classifyIssue,
+  chooseCustomAgent,
+  chooseRoute,
+  rankIssue
+} = require('./issue-automation')
 const { desiredStatus } = require('./project-sync')
 
 test('classifies cross-stack database requirements as high complexity', () => {
@@ -37,6 +42,36 @@ test('routes scripts to Copilot CLI', () => {
   ])
 
   assert.equal(route.label, 'agent:copilot-cli')
+})
+
+test('selects custom agents from classified work areas', () => {
+  assert.equal(chooseCustomAgent(['area:frontend']), 'frontend')
+  assert.equal(chooseCustomAgent(['area:full-stack']), 'fullstack')
+  assert.equal(chooseCustomAgent(['area:documentation']), 'documentation')
+  assert.equal(chooseCustomAgent(['kind:docs']), 'documentation')
+  assert.equal(chooseCustomAgent(['area:backend', 'kind:logging']), 'clean-code')
+})
+
+test('routes documentation work to the cloud documentation agent', () => {
+  const route = chooseRoute([
+    'area:documentation',
+    'kind:docs',
+    'complexity:low'
+  ])
+
+  assert.equal(route.label, 'agent:cloud')
+  assert.equal(route.customAgent, 'documentation')
+})
+
+test('routes bounded backend work to the cloud clean-code agent', () => {
+  const route = chooseRoute([
+    'area:backend',
+    'kind:logging',
+    'complexity:low'
+  ])
+
+  assert.equal(route.label, 'agent:cloud')
+  assert.equal(route.customAgent, 'clean-code')
 })
 
 test('ranks urgent issues above normal issues', () => {

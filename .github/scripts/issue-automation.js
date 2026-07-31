@@ -61,14 +61,26 @@ function classifyIssue(title, body = '') {
   return { area, kind, priority, complexity, score }
 }
 
+function chooseCustomAgent(labelNames) {
+  const labels = new Set(labelNames)
+
+  if (labels.has('area:full-stack')) return 'fullstack'
+  if (labels.has('area:frontend')) return 'frontend'
+  if (labels.has('area:documentation') || labels.has('kind:docs')) return 'documentation'
+  if (labels.has('area:backend')) return 'clean-code'
+  return ''
+}
+
 function chooseRoute(labelNames) {
   const labels = new Set(labelNames)
+  const customAgent = chooseCustomAgent(labelNames)
 
   if (labels.has('area:full-stack') && labels.has('complexity:high')) {
     return {
       label: 'agent:vscode',
       owner: 'Human maintainer using GitHub Copilot in VS Code',
-      reason: 'The highest-complexity full-stack work benefits from interactive architecture decisions.'
+      reason: 'The highest-complexity full-stack work benefits from interactive architecture decisions.',
+      customAgent
     }
   }
 
@@ -76,7 +88,17 @@ function chooseRoute(labelNames) {
     return {
       label: 'agent:copilot-app',
       owner: 'Copilot on GitHub using the frontend custom agent',
-      reason: 'This isolated UI change is a good asynchronous Copilot task.'
+      reason: 'This isolated UI change is a good asynchronous Copilot task.',
+      customAgent
+    }
+  }
+
+  if (labels.has('area:documentation') || labels.has('kind:docs')) {
+    return {
+      label: 'agent:cloud',
+      owner: 'Copilot cloud agent using the documentation custom agent',
+      reason: 'Documentation-only work is bounded, reviewable, and can use the dedicated documentation agent.',
+      customAgent
     }
   }
 
@@ -84,7 +106,8 @@ function chooseRoute(labelNames) {
     return {
       label: 'agent:copilot-cli',
       owner: 'Human maintainer using Copilot CLI',
-      reason: 'The work is command-line or workflow focused and can be validated locally.'
+      reason: 'The work is command-line or workflow focused and can be validated locally.',
+      customAgent
     }
   }
 
@@ -92,15 +115,17 @@ function chooseRoute(labelNames) {
       || (labels.has('area:backend') && labels.has('complexity:low'))) {
     return {
       label: 'agent:cloud',
-      owner: 'Copilot cloud agent',
-      reason: 'This is a bounded backend change with a short validation loop.'
+      owner: 'Copilot cloud agent using the clean-code custom agent',
+      reason: 'This is a bounded backend change with a short validation loop.',
+      customAgent
     }
   }
 
   return {
     label: 'agent:human',
     owner: 'Human maintainer',
-    reason: 'The issue needs a maintainer decision before an implementation tool is selected.'
+    reason: 'The issue needs a maintainer decision before an implementation tool is selected.',
+    customAgent
   }
 }
 
@@ -268,6 +293,7 @@ async function routeDaily({ github, context, core, maintainer }) {
 | --- | --- |
 | Recommended lane | \`${route.label}\` |
 | Owner/tool | ${route.owner} |
+| Custom agent | ${route.customAgent ? `\`${route.customAgent}\`` : 'Default Copilot agent'} |
 
 **Why:** ${route.reason}
 
@@ -294,6 +320,7 @@ The router selects the highest-ranked ready issue in each lane. Copilot code rev
 
 module.exports = {
   classifyIssue,
+  chooseCustomAgent,
   chooseRoute,
   ensureLabels,
   labelDefinitions,

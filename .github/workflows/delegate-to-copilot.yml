@@ -78,10 +78,10 @@ jobs:
           LABELS_JSON: ${{ toJson(github.event.issue.labels.*.name) }}
         shell: bash
         run: |
-          custom_agent=""
-          if jq -e 'index("agent:copilot-app")' <<<"$LABELS_JSON" >/dev/null; then
-            custom_agent="frontend"
-          fi
+          custom_agent="$(node -e '
+            const { chooseCustomAgent } = require("./.github/scripts/issue-automation.js")
+            console.log(chooseCustomAgent(JSON.parse(process.env.LABELS_JSON)))
+          ')"
 
           jq -n --arg repo "$GITHUB_REPOSITORY" --arg custom_agent "$custom_agent" '{
             assignees: ["copilot-swe-agent[bot]"],
@@ -97,4 +97,4 @@ jobs:
             --input -
 
           gh issue comment "$ISSUE_NUMBER" --body \
-            "Copilot has accepted the approved issue. Follow progress in the assignee activity and resulting pull request."
+            "Copilot has accepted the approved issue using the \`${custom_agent:-default}\` agent. Follow progress in the assignee activity and resulting pull request."

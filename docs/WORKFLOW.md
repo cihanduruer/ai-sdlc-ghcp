@@ -20,14 +20,18 @@ The scheduled workflow runs at 07:00 UTC and can also be started manually. It co
 
 | Work profile | Route label | GitHub assignee | Working surface |
 | --- | --- | --- | --- |
-| Hardest full-stack | `agent:vscode` | `HUMAN_MAINTAINER` | GitHub Copilot in VS Code |
-| Simple frontend | `agent:copilot-app` | Copilot after AI approval | Copilot on GitHub with frontend agent |
+| Hardest full-stack | `agent:vscode` | `HUMAN_MAINTAINER` | GitHub Copilot in VS Code with `fullstack` agent |
+| Simple frontend | `agent:copilot-app` | Copilot after AI approval | Copilot on GitHub with `frontend` agent |
+| Documentation-only | `agent:cloud` | Copilot after AI approval | Copilot cloud agent with `documentation` agent |
 | Script/workflow | `agent:copilot-cli` | `HUMAN_MAINTAINER` | Copilot CLI |
-| Quick logging/backend | `agent:cloud` | Copilot after AI approval | Copilot cloud agent |
+| Quick logging/backend | `agent:cloud` | Copilot after AI approval | Copilot cloud agent with `clean-code` agent |
 | Ambiguous/risky | `agent:human` | `HUMAN_MAINTAINER` | Human decision |
-| Pull request review | n/a | Copilot reviewer | Copilot code review |
+| Pull request maintainability review | n/a | Human starts `clean-code` agent | VS Code |
+| Pull request verification | n/a | Human starts `qa` agent | VS Code plus Copilot code review |
 
-VS Code and Copilot CLI are local tools, not GitHub identities. The workflow assigns their issues to the configured human and records the tool in a label. Copilot on GitHub and Copilot cloud agent currently use the same `copilot-swe-agent[bot]` assignment API; the route and custom agent describe how the task should be handled.
+VS Code and Copilot CLI are local tools, not GitHub identities. The workflow assigns their issues to the configured human and records the tool in a label. Copilot on GitHub and Copilot cloud agent currently use the same `copilot-swe-agent[bot]` assignment API. For remote work, delegation selects `frontend`, `fullstack`, `documentation`, or `clean-code` from the issue's area labels. The `clean-code` agent implements bounded backend work and can also perform a human-started maintainability pass. The `qa` agent is intentionally started by a person after implementation so it verifies work without becoming the implementer.
+
+The `clean-code` agent contains original repository-specific guidance inspired by general principles popularized by Robert C. Martin. It does not reproduce text from *Clean Code*.
 
 ## Explainable triage
 

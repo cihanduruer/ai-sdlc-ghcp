@@ -48,7 +48,7 @@ Expected route: `area:frontend`, `complexity:low`, `agent:copilot-app`.
 
 Expected route: `area:automation`, `kind:script`, `agent:copilot-cli`.
 
-## Card D - quick logging fix -> Copilot cloud agent
+## Card D - quick logging fix -> Copilot cloud clean-code agent
 
 **Title:** `[Bug] Log booking cancellation outcomes`
 
@@ -61,4 +61,19 @@ Expected route: `area:automation`, `kind:script`, `agent:copilot-cli`.
 - [ ] HTTP behavior remains 204 for success and 404 when missing.
 - [ ] Tests prove both HTTP outcomes.
 
-Expected route: `kind:logging`, `complexity:low`, `agent:cloud`.
+Expected route: `area:backend`, `kind:logging`, `complexity:low`, `agent:cloud`, custom agent `clean-code`.
+
+## Card E - documentation improvement -> documentation agent
+
+**Title:** `[Requirement] Add a guest cancellation troubleshooting section`
+
+**Desired outcome:** Guests and workshop attendees can distinguish a successful cancellation from a missing booking and know the next action without reading implementation code.
+
+**Acceptance criteria:**
+
+- [ ] The attendee guide explains both cancellation outcomes in guest-facing language.
+- [ ] Commands and HTTP status names match the implementation.
+- [ ] The section includes expected evidence and one recovery action.
+- [ ] No token, personal identifier, or environment-specific URL appears.
+
+Expected route: `area:documentation`, `kind:docs`, `agent:cloud`, custom agent `documentation`.

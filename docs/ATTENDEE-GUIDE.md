@@ -301,7 +301,7 @@ Official references:
 
 **Outcome:** the local hotel application runs with a seeded SQLite database.
 
-1. Open VS Code Copilot Chat in **Agent** mode.
+1. Open VS Code Copilot Chat, open the agent picker, and select the repository's **fullstack** custom agent.
 2. Paste:
 
    ```text
@@ -372,16 +372,41 @@ Official references:
 7. Return to the issue and inspect the `agent:*` label and routing comment.
 8. Compare the result with the routing table in [Workflow reference](WORKFLOW.md).
 
-For an event group, create all four requirement cards. The daily router selects the highest-ranked ready issue in each lane:
+### Why run workflow 02 manually?
 
-- hardest full-stack -> VS Code Copilot,
-- simple frontend -> Copilot on GitHub,
+In normal operation, **02 - Route top ready issues** runs every day at **07:00 UTC**. The workshop starts it manually so you can see the routing decision immediately rather than waiting for the next schedule.
+
+The separation is intentional:
+
+- triage describes the issue when it is opened or edited,
+- a human approves the scope with `ready-for-building`,
+- workflow 02 then chooses the most suitable implementation lane.
+
+This keeps approval and execution separate. Adding `ready-for-building` does not silently start development, and running workflow 02 still does not start remote Copilot work; `develop-with-ai` remains the final human gate.
+
+### How selection works
+
+The router considers open issues that have both `status:triaged` and `ready-for-building`. It ignores work already in QA or released, recommends an `agent:*` lane, and selects at most one top issue for each lane.
+
+The summary's **Score** is only a simple ordering value:
+
+- priority contributes the most: P1 before P2 before P3,
+- complexity breaks close ties: high before medium before low,
+- older issues receive a small boost.
+
+For example, a P2 medium issue scores higher than a P3 high issue because priority has more weight. A higher score means “route this first,” not “better quality” or “higher AI confidence.”
+
+For an event group, create the requirement cards. The daily router selects the highest-ranked ready issue in each lane:
+
+- hardest full-stack -> VS Code Copilot with `fullstack`,
+- simple frontend -> Copilot on GitHub with `frontend`,
+- documentation-only -> Copilot cloud agent with `documentation`,
 - script -> Copilot CLI,
-- quick logging -> Copilot cloud agent.
+- quick logging -> Copilot cloud agent with `clean-code`.
 
-**Checkpoint:** the Project shows **Ready** and the issue has exactly one route label.
+**Checkpoint:** the workflow summary shows the selected issue, route, and score; the Project shows **Ready**; and the issue has exactly one route label.
 
-**Recovery:** route manually by adding the expected `agent:*` label, then continue. Record the automation mismatch for discussion.
+**Recovery:** if no issue appears in the summary, confirm it has both `status:triaged` and `ready-for-building`, then rerun workflow 02. If necessary, add the expected `agent:*` label manually and record the mismatch for discussion.
 
 ## Phase 4 - Build with the selected Copilot surface (52-68 minutes)
 
@@ -399,7 +424,18 @@ Assign the issue to yourself. From the repository root run Copilot CLI, referenc
 
 Add `develop-with-ai`. The delegation workflow enforces `ready-for-building`, then assigns `copilot-swe-agent[bot]`. Watch the agent session and resulting pull request.
 
-For the event, the App lane uses the `frontend` custom agent for a small UI feature. The Cloud lane demonstrates a bounded backend fix. Both execute remotely; their distinction is the task profile and custom instructions, not a different GitHub assignee.
+For remote delegation, the workflow derives the custom agent from triage labels:
+
+| Issue area | Custom agent |
+| --- | --- |
+| `area:frontend` | `frontend` |
+| `area:full-stack` | `fullstack` |
+| `area:documentation` or `kind:docs` | `documentation` |
+| `area:backend` | `clean-code` |
+
+The issue comment names the selected custom agent. All remote lanes use `copilot-swe-agent[bot]`; the custom agent changes the role and instructions, not the GitHub assignee.
+
+The `clean-code` agent uses original Northstar-specific guidance inspired by general principles popularized by Robert C. Martin: clear names, cohesive functions, explicit errors, restrained abstraction, and focused tests. It does not reproduce the book.
 
 **Checkpoint:** a non-draft pull request exists, its body contains `Closes #<issue>`, and CI starts.
 
@@ -410,15 +446,21 @@ For the event, the App lane uses the `frontend` custom agent for a small UI feat
 **Outcome:** code is validated and reviewed before the work item changes state.
 
 1. Wait for **Build and test** to pass.
-2. Confirm **04 - Request Copilot code review** requested Copilot.
-3. Read every Copilot review comment. Apply or explicitly dismiss suggestions; Copilot comments are advice, not approval.
-4. Ensure the PR remains linked to the issue with `Closes #<issue>`.
-5. After Copilot submits its review, inspect **05 - Promote reviewed work to QA**.
-6. Merge the pull request after event branch policy requirements are satisfied.
+2. In VS Code, check out the pull-request branch, open the agent picker, and select the repository's **clean-code** custom agent.
+3. Ask: `Review this pull request for clear names, cohesive responsibilities, explicit errors, unnecessary complexity, and focused tests. Report required fixes separately from optional improvements; do not change product scope.`
+4. Apply required findings, rerun the affected validation, and record a short maintainability note in the pull request.
+5. Select the repository's **qa** custom agent.
+6. Ask: `Verify this pull request against its linked issue. Produce a compact test matrix, run the required validation, and report blockers without changing product scope.`
+7. Record the QA agent's pass/fail evidence in the pull request.
+8. Confirm **04 - Request Copilot code review** requested Copilot.
+9. Read every Copilot review comment. Apply or explicitly dismiss suggestions; Copilot comments are advice, not approval.
+10. Ensure the PR remains linked to the issue with `Closes #<issue>`.
+11. After Copilot submits its review, inspect **05 - Promote reviewed work to QA**.
+12. Merge the pull request after event branch policy requirements are satisfied.
 
-**Checkpoint:** the linked issue has `ready-for-qa` and the Project shows **QA**.
+**Checkpoint:** the clean-code agent produced a maintainability note, the QA agent produced test evidence, the linked issue has `ready-for-qa`, and the Project shows **QA**.
 
-**Recovery:** if organization policy prevents automatic review, request Copilot from the Reviewers control. The facilitator may add `ready-for-qa` after showing evidence of a completed Copilot review.
+**Recovery:** if time is short, combine the clean-code and QA requests into one QA pass. If organization policy prevents automatic review, request Copilot from the Reviewers control. The facilitator may add `ready-for-qa` after showing evidence of a completed Copilot review.
 
 ## Phase 6 - Approve and simulate release (78-87 minutes)
 
