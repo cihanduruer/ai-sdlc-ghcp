@@ -306,6 +306,7 @@ Official references:
 
    ```text
    Create the Northstar Hotel baseline described by the repository instructions.
+   Use the frontend-design skill to plan a distinctive but restrained hotel interface.
    Use a .NET 8 minimal API with EF Core SQLite and an idempotent seeder for six rooms.
    Add a React TypeScript Vite single-page UI that lists rooms, searches by check-in/check-out,
    creates bookings, shows bookings, and cancels bookings.
@@ -313,7 +314,7 @@ Official references:
    Keep the design polished but dependency-light. Run tests, lint, and builds.
    ```
 
-3. Review the proposed plan before allowing edits.
+3. Confirm the proposed plan preserves the Northstar Hotel palette, accessibility requirements, and mobile layout before allowing edits.
 4. Accept changes in small groups. Ask Copilot to resolve any failed build rather than bypassing validation.
 5. Run the application using **Terminal > Run Task > app: run**, or the commands in `README.md`.
 6. Book a room, then search the same dates and confirm it becomes unavailable.
