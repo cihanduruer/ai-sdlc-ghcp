@@ -15,26 +15,7 @@ This repository is both the **working reference implementation** and the **autom
 - A completed Copilot review moves the linked issue to `ready-for-qa`.
 - A human adds `release-to-production`; Actions reruns tests and creates a release artifact without deploying anywhere.
 
-```mermaid
-flowchart TD
-    A[Requirement issue] --> B[Automatic triage]
-    B --> C[Project: Triage]
-    C -->|Human adds ready-for-building| D[Daily issue router]
-    D --> E1[VS Code Copilot]
-    D --> E2[Copilot on GitHub]
-    D --> E3[Copilot CLI]
-    D --> E4[Copilot cloud agent]
-    D --> E5[Human maintainer]
-    E2 -->|Human adds develop-with-ai| F[Copilot pull request]
-    E4 -->|Human adds develop-with-ai| F
-    E1 --> F
-    E3 --> F
-    E5 --> F
-    F --> G[CI, clean-code and QA agents, Copilot review]
-    G --> H[ready-for-qa]
-    H -->|Human adds release-to-production| I[Test and build]
-    I --> J[Simulated release artifact]
-```
+See the vertical [AI SDLC flow diagram](docs/WORKFLOW.md#ai-sdlc-flow) for the complete lifecycle.
 
 ## Reference application
 
@@ -78,7 +59,8 @@ npm run build
 
 ## Start the hack
 
-1. Attendees, organizers, and repository administrators: follow the unified [setup and 90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
-2. Use the [Workflow reference](docs/WORKFLOW.md) and [Phase 3 sample issue library](docs/SAMPLE-ISSUE-LIBRARY.md) during the hack.
+1. Attendees, organizers, and repository administrators: complete [Setup and Phase 0](docs/ATTENDEE-GUIDE-PHASE-0.md).
+2. Continue with [Phases 1 to 7](docs/ATTENDEE-GUIDE-PHASE-1-TO-7.md).
+3. Use the [Workflow reference](docs/WORKFLOW.md) and [Phase 3 sample issue library](docs/SAMPLE-ISSUE-LIBRARY.md) during the hack.
 
 The automation is workshop-safe by design: deterministic triage, explicit human gates, dedicated token boundaries, least-privilege workflow permissions, and no real deployment.

@@ -1,5 +1,37 @@
 # AI SDLC workflow reference
 
+## AI SDLC flow
+
+```mermaid
+flowchart TD
+    A["Requirement issue<br/>Project: Backlog"] --> B["01 - Triage issue<br/>status:triaged"]
+    B --> C["Project: Triage"]
+    C -->|Human adds ready-for-building| D["Project: Ready"]
+    D --> E["02 - Route top ready issues<br/>select agent:* lane"]
+    E --> F{"Implementation surface"}
+    F -->|agent:vscode| G["VS Code Copilot<br/>fullstack"]
+    F -->|agent:copilot-app| H["Copilot on GitHub<br/>frontend"]
+    F -->|agent:copilot-cli| I["Copilot CLI"]
+    F -->|agent:cloud| J["Copilot cloud agent<br/>clean-code or documentation"]
+    F -->|agent:human| K["Human maintainer"]
+    H -->|Human adds develop-with-ai| L["Project: In progress"]
+    J -->|Human adds develop-with-ai| L
+    G --> L
+    I --> L
+    K --> L
+    L --> M["Non-draft pull request<br/>Closes issue"]
+    M --> N["Build and test"]
+    M --> O["04 - Automatic Copilot code review"]
+    N --> P["clean-code and qa evidence"]
+    O --> P
+    P --> Q["05 - Promote reviewed work<br/>ready-for-qa"]
+    Q --> R["Project: QA"]
+    R -->|Human adds release-to-production| S["06 - Test and build release artifact"]
+    S --> T["released<br/>Project: Done"]
+```
+
+**Human decisions are the labeled arrows.** Automation can classify, route, delegate, review, test, and synchronize the Project, but it cannot approve scope or release.
+
 ## Lifecycle labels
 
 | Label | Added by | Meaning |

@@ -55,6 +55,8 @@ Choose one issue during an individual run. Facilitators can create all four to s
 
 **Expected evidence:** `area:frontend`, `complexity:low`, and then `agent:copilot-app` after workflow 02 runs. Remote delegation selects the `frontend` custom agent.
 
+Use this issue for the guided GitHub Copilot App exercise in [Phase 4](ATTENDEE-GUIDE-PHASE-1-TO-7.md#guided-github-copilot-app-exercise---agentcopilot-app). The resulting pull request is independently checked with the VS Code `clean-code` and `qa` agents in Phase 5.
+
 ## Level 3 - Script feature -> Copilot CLI
 
 **Why this lane:** the work is command-line focused and benefits from local path checks and direct script execution.
