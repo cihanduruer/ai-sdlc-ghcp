@@ -57,10 +57,8 @@ In repository **Settings**:
 2. Enable Issues.
 3. Confirm Copilot cloud agent access for the repository.
 4. Confirm the organization policy allows Copilot code review.
-5. Optional but recommended: create a branch ruleset for `main` requiring the `validate` check.
-6. Optional production-style review: enable **Automatically request Copilot code review** in a branch ruleset. The included workflow also requests Copilot when a non-draft pull request opens.
 
-Copilot code review submits comments; it does not approve a pull request or replace required human approval.
+The included workflow requests Copilot review when a non-draft pull request opens, so this workshop does not require a branch ruleset. Copilot code review submits comments; it does not approve a pull request or replace required human approval.
 
 Under **Settings > General > Features**, select **Issues**.
 
