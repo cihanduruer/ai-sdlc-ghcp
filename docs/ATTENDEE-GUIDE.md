@@ -306,15 +306,35 @@ Official references:
 
    ```text
    Create the Northstar Hotel baseline described by the repository instructions.
-   Use the frontend-design skill to plan a distinctive but restrained hotel interface.
+
+   Use the frontend-design skill. Before coding, propose a compact visual plan for a sleek,
+   modern boutique-hotel experience whose single job is helping a guest find and book a room.
+   Preserve the Northstar identity: deep harbour green, warm coral accents, generous off-white
+   space, restrained serif display headings, crisp sans-serif body copy, and compact room cards.
+   Make the signature element a refined availability search card that overlaps the hero and
+   clearly summarizes the selected stay. Avoid a generic admin dashboard, stock travel-template
+   styling, excessive gradients, glassmorphism, and decorative animation.
+
+   Build a responsive mobile-first layout with:
+   - a concise hotel hero and clear primary action,
+   - labelled check-in and check-out controls with an obvious search action,
+   - scannable room cards showing room name, capacity, nightly price, and availability,
+   - a focused booking form and a readable current-bookings section,
+   - purposeful loading, empty, validation, success, and error states.
+
+   Use semantic HTML, visible keyboard focus, readable contrast, status announcements, and
+   reduced-motion support. Keep motion limited to one subtle, useful interaction. Do not add
+   a UI framework, state library, or unnecessary design dependency.
+
    Use a .NET 8 minimal API with EF Core SQLite and an idempotent seeder for six rooms.
    Add a React TypeScript Vite single-page UI that lists rooms, searches by check-in/check-out,
    creates bookings, shows bookings, and cancels bookings.
-   Enforce non-overlapping stays in the API and add xUnit integration tests.
-   Keep the design polished but dependency-light. Run tests, lint, and builds.
+   Enforce non-overlapping stays and all booking rules at the API boundary. Add focused xUnit
+   integration tests. Review the rendered interface at desktop and mobile widths, remove one
+   unnecessary decorative element, then run tests, lint, and production builds.
    ```
 
-3. Confirm the proposed plan preserves the Northstar Hotel palette, accessibility requirements, and mobile layout before allowing edits.
+3. Confirm the proposed plan preserves the Northstar Hotel palette, makes availability search the visual signature, covers all interaction states, and remains accessible on mobile before allowing edits.
 4. Accept changes in small groups. Ask Copilot to resolve any failed build rather than bypassing validation.
 5. Run the application using **Terminal > Run Task > app: run**, or the commands in `README.md`.
 6. Book a room, then search the same dates and confirm it becomes unavailable.
