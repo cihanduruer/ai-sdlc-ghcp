@@ -84,7 +84,19 @@ The repository provides the complete label names, colors, and descriptions shown
 
 ### E. Create the GitHub Project
 
-Create a Projects v2 project with a Board view. Keep the field name `Status` and use these exact options:
+1. Open your GitHub profile or organization **Projects** page and select **New project**.
+
+![GitHub Projects page with New project highlighted](images/setup/03-create-project.png)
+
+2. Under **Start from scratch**, select **Board**.
+
+![Create project dialog with Board highlighted](images/setup/03-select-board.png)
+
+3. Enter a project name, optionally import existing issues from the workshop repository, and select **Create project**.
+
+![New Board form with the project name and Create project controls highlighted](images/setup/03-create-board.png)
+
+4. Open the Project settings, select the `Status` field, and replace its options with these exact names and order:
 
 | Order | Status |
 | --- | --- |
@@ -95,19 +107,19 @@ Create a Projects v2 project with a Board view. Keep the field name `Status` and
 | 5 | QA |
 | 6 | Done |
 
-Add optional views grouped by `Area`, `Complexity`, or `Agent` labels. Labels remain on the Issue; the workflow synchronizes Project Status.
+Keep the field name exactly `Status`; the workflow uses it to move issues between columns.
 
-![GitHub Projects page with New project highlighted](images/setup/03-create-project.png)
+5. Optional: select **+ New view** and create filtered views for the repository labels. GitHub Projects cannot group directly by labels.
 
-Use the highlighted **New project** button. Under **Start from scratch**, select **Board**.
+| View name | Filter |
+| --- | --- |
+| Area | `label:"area:frontend","area:backend","area:full-stack","area:automation","area:documentation"` |
+| Complexity | `label:"complexity:low","complexity:medium","complexity:high"` |
+| Agent | `label:"agent:vscode","agent:copilot-app","agent:copilot-cli","agent:cloud","agent:human"` |
 
-![Create project dialog with Board highlighted](images/setup/03-select-board.png)
+Labels remain on the Issue; the workflow synchronizes only the Project `Status`.
 
-Enter a project name, optionally import existing issues from the workshop repository, and select **Create project**.
-
-![New Board form with the project name and Create project controls highlighted](images/setup/03-create-board.png)
-
-**Expected evidence:** the new Project opens in a Board view. If **Board** is not visible, select **Start from scratch** in the left menu.
+**Expected evidence:** the Project opens in a Board view with the six Status columns. If **Board** is not visible during creation, select **Start from scratch** in the left menu.
 
 ### F. Configure repository variables
 
