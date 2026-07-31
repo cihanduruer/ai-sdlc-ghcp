@@ -71,6 +71,23 @@ function chooseCustomAgent(labelNames) {
   return ''
 }
 
+function buildCopilotAssignment(targetRepo, customAgent = '') {
+  const agentAssignment = {
+    target_repo: targetRepo,
+    base_branch: 'main',
+    custom_instructions: 'Follow all repository instructions and skills. Implement the issue, update documentation, add tests, run validation, and open a pull request.'
+  }
+
+  if (customAgent) {
+    agentAssignment.custom_agent = customAgent
+  }
+
+  return {
+    assignees: ['copilot-swe-agent[bot]'],
+    agent_assignment: agentAssignment
+  }
+}
+
 function chooseRoute(labelNames) {
   const labels = new Set(labelNames)
   const customAgent = chooseCustomAgent(labelNames)
@@ -319,6 +336,7 @@ The router selects the highest-ranked ready issue in each lane. Copilot code rev
 }
 
 module.exports = {
+  buildCopilotAssignment,
   classifyIssue,
   chooseCustomAgent,
   chooseRoute,

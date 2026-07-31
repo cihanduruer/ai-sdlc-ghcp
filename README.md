@@ -80,6 +80,6 @@ npm run build
 
 1. Organizers: follow the [Facilitator guide](docs/FACILITATOR-GUIDE.md).
 2. Attendees and repository administrators: follow the unified [setup and 90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
-3. Everyone: use the [Workflow reference](docs/WORKFLOW.md) and [Requirement cards](docs/REQUIREMENT-CARDS.md).
+3. Everyone: use the [Workflow reference](docs/WORKFLOW.md) and [Phase 3 sample issue library](docs/SAMPLE-ISSUE-LIBRARY.md).
 
 The automation is workshop-safe by design: deterministic triage, explicit human gates, dedicated token boundaries, least-privilege workflow permissions, and no real deployment.

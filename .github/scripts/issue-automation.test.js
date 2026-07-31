@@ -1,6 +1,7 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
 const {
+  buildCopilotAssignment,
   classifyIssue,
   chooseCustomAgent,
   chooseRoute,
@@ -72,6 +73,27 @@ test('routes bounded backend work to the cloud clean-code agent', () => {
 
   assert.equal(route.label, 'agent:cloud')
   assert.equal(route.customAgent, 'clean-code')
+})
+
+test('builds a valid Copilot assignment with a custom agent', () => {
+  assert.deepEqual(
+    buildCopilotAssignment('owner/repository', 'frontend'),
+    {
+      assignees: ['copilot-swe-agent[bot]'],
+      agent_assignment: {
+        target_repo: 'owner/repository',
+        base_branch: 'main',
+        custom_instructions: 'Follow all repository instructions and skills. Implement the issue, update documentation, add tests, run validation, and open a pull request.',
+        custom_agent: 'frontend'
+      }
+    }
+  )
+})
+
+test('omits an empty custom agent from the Copilot assignment', () => {
+  const payload = buildCopilotAssignment('owner/repository')
+
+  assert.equal(payload.agent_assignment.custom_agent, undefined)
 })
 
 test('ranks urgent issues above normal issues', () => {

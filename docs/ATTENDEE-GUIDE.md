@@ -349,7 +349,7 @@ Official references:
 **Outcome:** GitHub turns a requirement into scored, visible work.
 
 1. Open **Issues > New issue > Product requirement**.
-2. Choose one card from [Requirement cards](REQUIREMENT-CARDS.md) and copy its title, outcome, and acceptance criteria.
+2. Choose one copy-ready example from the [Phase 3 sample issue library](SAMPLE-ISSUE-LIBRARY.md) and complete the matching issue form.
 3. Submit the issue.
 4. Watch **Actions > 01 - Triage issue**.
 5. Inspect the labels and triage comment. Ask yourself whether the area and complexity are reasonable.
@@ -396,7 +396,7 @@ The summary's **Score** is only a simple ordering value:
 
 For example, a P2 medium issue scores higher than a P3 high issue because priority has more weight. A higher score means “route this first,” not “better quality” or “higher AI confidence.”
 
-For an event group, create the requirement cards. The daily router selects the highest-ranked ready issue in each lane:
+For an event group, create the four core examples from the [sample issue library](SAMPLE-ISSUE-LIBRARY.md). The daily router selects the highest-ranked ready issue in each lane:
 
 - hardest full-stack -> VS Code Copilot with `fullstack`,
 - simple frontend -> Copilot on GitHub with `frontend`,
@@ -439,7 +439,7 @@ The `clean-code` agent uses original Northstar-specific guidance inspired by gen
 
 **Checkpoint:** a non-draft pull request exists, its body contains `Closes #<issue>`, and CI starts.
 
-**Recovery:** if remote agent access or tokens are blocked, manually assign Copilot in the issue UI. If that is also unavailable, use VS Code Agent mode with the same issue and continue.
+**Recovery:** if workflow 03 fails, open its **Assign Copilot cloud agent** log first. After correcting configuration or updating the workflow, remove and re-add `develop-with-ai` to create a new delegation event. If remote agent access or tokens remain blocked, manually assign Copilot in the issue UI; if that is also unavailable, use VS Code Agent mode with the same issue.
 
 ## Phase 5 - Review and promote to QA (68-78 minutes)
 

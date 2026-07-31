@@ -21,7 +21,7 @@
 
 1. Run all local validation commands from `README.md`.
 2. Run **00 - Set up repository labels**.
-3. Create the five issues from `REQUIREMENT-CARDS.md`, add `ready-for-building`, and run the daily router.
+3. Create the four core issues and optional documentation issue from `SAMPLE-ISSUE-LIBRARY.md`, add `ready-for-building`, and run the daily router.
 4. Delegate Card D and confirm the issue comment names the `clean-code` custom agent.
 5. Delegate Card E and confirm the issue comment names the `documentation` custom agent.
 6. Open a test pull request and confirm Copilot review can be requested.
