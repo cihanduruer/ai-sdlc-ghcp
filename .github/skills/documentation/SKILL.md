@@ -8,7 +8,7 @@ description: Keep attendee, facilitator, setup, architecture, and feature docume
 Use this skill whenever a change affects product behavior, commands, repository setup, labels, workflow gates, secrets, or participant instructions.
 
 1. Identify every audience affected: guest/user, attendee, facilitator, and repository administrator.
-2. Compare the implementation with `README.md`, `docs/ATTENDEE-GUIDE.md`, `docs/SETUP.md`, and `docs/WORKFLOW.md`.
+2. Compare the implementation with `README.md`, `docs/ATTENDEE-GUIDE.md`, and `docs/WORKFLOW.md`.
 3. Update only the sources made inaccurate by the change.
 4. Use exact commands and label names copied from the repository.
 5. Include expected evidence and one concise troubleshooting action for workshop-critical steps.

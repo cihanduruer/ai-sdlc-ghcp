@@ -68,7 +68,7 @@ jobs:
         shell: bash
         run: |
           gh issue comment "$ISSUE_NUMBER" --body \
-            "The issue is approved, but \`COPILOT_AGENT_TOKEN\` is not configured. See \`docs/SETUP.md\`."
+            "The issue is approved, but \`COPILOT_AGENT_TOKEN\` is not configured. See \`docs/ATTENDEE-GUIDE.md\`."
 
       - name: Assign Copilot cloud agent
         if: ${{ steps.gate.outputs.approved == 'true' && env.COPILOT_TOKEN != '' }}

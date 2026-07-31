@@ -8,9 +8,11 @@ Start in an empty repository and deliver one Northstar Hotel requirement through
 
 Keep moving when a checkpoint passes. Use the recovery path only when it does not.
 
-## Phase 0 - Ready the empty repository (0-10 minutes)
+## Before the 90-minute clock - Complete GitHub setup
 
-**Outcome:** an empty application repository contains only the workshop's AI SDLC kit.
+Complete this section once for your workshop repository before starting Phase 0. If the facilitator manages organization tokens centrally, complete the visible repository settings and ask the facilitator to add the two secrets.
+
+### A. Create the empty repository and copy the workshop kit
 
 1. Create an empty GitHub repository named `northstar-hotel-<your-handle>`. Do not initialize it with a README.
 2. Clone it and open it in VS Code:
@@ -32,12 +34,158 @@ Keep moving when a checkpoint passes. Use the recovery path only when it does no
    git push -u origin main
    ```
 
-4. In GitHub Actions, run **00 - Set up repository labels**.
-5. Create a Project and variables using [GitHub setup](SETUP.md). Pair with the facilitator for tokens if event policy centralizes secrets.
+**Expected evidence:** the repository contains `.github`, `.vscode`, `.editorconfig`, `.gitignore`, and `.npmrc`, but does not contain a `src` folder.
+
+**Recovery:** if `git checkout workshop/main` fails, download the workshop repository ZIP and copy only those five paths.
+
+### B. Configure the mandatory NPM feed
+
+Run:
+
+```powershell
+npm config set registry https://packagefeedproxy.microsoft.io/npm/
+npm config get registry
+```
+
+The second command must return `https://packagefeedproxy.microsoft.io/npm/`. Do not bypass NPM Minimum Release controls; use the approved security exception process for an urgently required unavailable package version.
+
+### C. Enable repository capabilities
+
+In repository **Settings**:
+
+1. Enable GitHub Actions.
+2. Enable Issues.
+3. Confirm Copilot cloud agent access for the repository.
+4. Confirm the organization policy allows Copilot code review.
+5. Optional but recommended: create a branch ruleset for `main` requiring the `validate` check.
+6. Optional production-style review: enable **Automatically request Copilot code review** in a branch ruleset. The included workflow also requests Copilot when a non-draft pull request opens.
+
+Copilot code review submits comments; it does not approve a pull request or replace required human approval.
+
+![Repository settings with Issues, Rules, Actions, and Copilot highlighted](images/setup/01-repository-capabilities.png)
+
+The red rectangles identify the repository areas used to enable Issues, configure the `main` ruleset, verify Actions, and review Copilot access.
+
+### D. Create repository labels
+
+Open **Actions > 00 - Set up repository labels > Run workflow**.
+
+![Set up repository labels workflow with Run workflow highlighted](images/setup/02-create-labels.png)
+
+Select **Run workflow** in the highlighted control and run it from `main`.
+
+**Expected evidence:** the workflow succeeds and Issues shows labels from `.github/labels.json`, including `status:triaged`, `ready-for-building`, `develop-with-ai`, and `ready-for-qa`.
+
+### E. Create the GitHub Project
+
+Create a Projects v2 project with a Board view. Keep the field name `Status` and use these exact options:
+
+| Order | Status |
+| --- | --- |
+| 1 | Backlog |
+| 2 | Triage |
+| 3 | Ready |
+| 4 | In progress |
+| 5 | QA |
+| 6 | Done |
+
+Add optional views grouped by `Area`, `Complexity`, or `Agent` labels. Labels remain on the Issue; the workflow synchronizes Project Status.
+
+![GitHub Projects page with New project highlighted](images/setup/03-create-project.png)
+
+Use the highlighted **New project** button, then choose a Board layout.
+
+### F. Configure repository variables
+
+Open **Settings > Secrets and variables > Actions > Variables**.
+
+| Variable | Example | Purpose |
+| --- | --- | --- |
+| `HUMAN_MAINTAINER` | `octocat` | Assignee for VS Code, CLI, or human lanes |
+| `PROJECT_OWNER` | `contoso` | User or organization that owns the Project |
+| `PROJECT_OWNER_TYPE` | `organization` | `organization` or `user` |
+| `PROJECT_NUMBER` | `5` | Number visible in the Project URL |
+
+![Actions variables page with New repository variable highlighted](images/setup/04-repository-variables.png)
+
+Use **New repository variable** once for each row in the table.
+
+### G. Configure the Copilot assignment token
+
+The workflow `GITHUB_TOKEN` cannot use the Copilot cloud-agent assignment API. Create a short-lived **fine-grained personal access token** owned by a user who:
+
+- has repository write permission,
+- has Copilot cloud-agent access, and
+- is allowed by organization policy to delegate work.
+
+Grant repository permissions:
+
+- Metadata: read
+- Actions: read and write
+- Contents: read and write
+- Issues: read and write
+- Pull requests: read and write
+
+Store it as the repository Actions secret `COPILOT_AGENT_TOKEN`. Never place the token in an issue, prompt, workflow file, or commit. Delete or rotate it after the event.
+
+![Actions secrets page with the Copilot agent secret control highlighted](images/setup/05-copilot-secret.png)
+
+Select **New repository secret** and use the exact name `COPILOT_AGENT_TOKEN`.
+
+The cloud-agent assignment API is a preview capability and may be controlled by enterprise policy. If unavailable, manually assign Copilot from the Issue **Assignees** control.
+
+### H. Configure the Project token
+
+Projects v2 is outside the repository `GITHUB_TOKEN` boundary. Create a separate fine-grained token with:
+
+- Organization Projects: read and write, or User Projects: read and write
+- Repository Issues: read
+
+Store it as `PROJECT_TOKEN`. For a production system, prefer a GitHub App installation token and rotate credentials according to organization policy.
+
+![Actions secrets page with the Project token secret control highlighted](images/setup/06-project-secret.png)
+
+Select **New repository secret** and use the exact name `PROJECT_TOKEN`.
+
+### I. Smoke test the configuration
+
+1. Open **Issues > New issue > Product requirement**.
+2. Create a temporary requirement named `Setup smoke test`.
+3. Wait for **01 - Triage issue**.
+4. Confirm the issue receives area, kind, priority, complexity, and `status:triaged`.
+5. Add `ready-for-building`.
+6. Run **02 - Route top ready issues** manually.
+7. Confirm the route comment and `agent:*` label.
+8. Close the temporary issue without adding `develop-with-ai`.
+
+![New issue page with Product requirement highlighted](images/setup/07-smoke-test-issue.png)
+
+Start the smoke test with the highlighted **Product requirement** form.
+
+**Setup checkpoint:** labels exist, the Project Status moved with the smoke-test issue, all four repository variables exist, and both secret names appear in Actions settings.
+
+**Setup recovery:** if Project sync is skipped, recheck the `PROJECT_*` variables, `PROJECT_TOKEN` scope, and exact Status option names. If cloud-agent assignment is unavailable, use the manual Copilot assignment fallback during Phase 4.
+
+Official references:
+
+- [Use Copilot cloud agent via the API](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/use-cloud-agent-via-the-api)
+- [Configure automatic Copilot review](https://docs.github.com/en/copilot/how-tos/copilot-on-github/set-up-copilot/configure-automatic-review)
+- [Automate Projects with Actions](https://docs.github.com/en/issues/planning-and-tracking-with-projects/automating-your-project/automating-projects-using-actions)
+
+## Phase 0 - Confirm the prepared repository (0-10 minutes)
+
+**Outcome:** the empty application repository and GitHub automation are ready for the timed hack.
+
+1. Open the prepared repository in VS Code.
+2. Confirm no `src` folder exists yet.
+3. Run `npm config get registry` and confirm the approved Microsoft package feed.
+4. In GitHub, confirm the setup-label workflow passed.
+5. Confirm the Project, four repository variables, and two secret names exist.
+6. Confirm the temporary setup smoke-test issue was closed.
 
 **Checkpoint:** the repository has no `src` folder, labels exist, `.npmrc` points to the approved Microsoft package feed, and VS Code detects the recommended extensions.
 
-**Recovery:** if the `git checkout workshop/main` command fails, download the workshop repository ZIP and copy only `.github`, `.vscode`, `.editorconfig`, `.gitignore`, and `.npmrc`.
+**Recovery:** return to the matching setup subsection above and use its expected evidence to find the missing configuration.
 
 ## Phase 1 - Let VS Code Copilot create the baseline (10-30 minutes)
 

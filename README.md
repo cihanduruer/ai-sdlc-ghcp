@@ -79,8 +79,7 @@ npm run build
 ## Start the hack
 
 1. Organizers: follow the [Facilitator guide](docs/FACILITATOR-GUIDE.md).
-2. Attendees: follow the [90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
-3. Repository administrators: complete [GitHub setup](docs/SETUP.md).
-4. Everyone: use the [Workflow reference](docs/WORKFLOW.md) and [Requirement cards](docs/REQUIREMENT-CARDS.md).
+2. Attendees and repository administrators: follow the unified [setup and 90-minute attendee guide](docs/ATTENDEE-GUIDE.md).
+3. Everyone: use the [Workflow reference](docs/WORKFLOW.md) and [Requirement cards](docs/REQUIREMENT-CARDS.md).
 
 The automation is workshop-safe by design: deterministic triage, explicit human gates, dedicated token boundaries, least-privilege workflow permissions, and no real deployment.
