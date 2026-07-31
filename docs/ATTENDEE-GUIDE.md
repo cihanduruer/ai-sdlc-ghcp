@@ -62,6 +62,10 @@ In repository **Settings**:
 
 Copilot code review submits comments; it does not approve a pull request or replace required human approval.
 
+Under **Settings > General > Features**, select **Issues**.
+
+![Repository General settings with the Issues feature enabled](images/setup/01-enable-issues.png)
+
 ![Repository Actions permissions with Allow all actions and reusable workflows selected](images/setup/01-repository-capabilities.png)
 
 Under **Settings > Actions > General**, select **Allow all actions and reusable workflows**, then select **Save**.
