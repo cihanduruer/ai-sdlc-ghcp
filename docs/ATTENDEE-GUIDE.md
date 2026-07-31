@@ -218,25 +218,44 @@ Never reuse `COPILOT_AGENT_TOKEN` here or expose either token in an issue, workf
 
 ### I. Smoke test the configuration
 
-1. Open **Issues > New issue > Product requirement**.
-2. Create a temporary requirement named `Setup smoke test`.
-3. Wait for **01 - Triage issue**.
-4. Confirm the issue receives area, kind, priority, complexity, and `status:triaged`.
-5. Add `ready-for-building`.
-6. Open the repository **Actions** tab.
-7. In the left workflow list, select **02 - Route top ready issues**.
-8. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
-9. Wait for the new workflow run to appear and finish successfully.
-10. Return to the issue and confirm the route comment and `agent:*` label.
-11. Close the temporary issue without adding `develop-with-ai`.
+#### Create the test issue
+
+1. Open **Issues > New issue**.
+2. Select **Get started** beside **Product requirement**.
 
 ![New issue page with Product requirement highlighted](images/setup/07-smoke-test-issue.png)
 
-Start the smoke test with the highlighted **Product requirement** form.
+3. Complete the required fields, use `Setup smoke test` as the title, and select **Submit new issue**.
 
-**Setup checkpoint:** labels exist, the Project Status moved with the smoke-test issue, all four repository variables exist, and both secret names appear in Actions settings.
+#### Verify triage and Project synchronization
 
-**Setup recovery:** if Project sync is skipped, recheck the `PROJECT_*` variables, `PROJECT_TOKEN` scope, and exact Status option names. If cloud-agent assignment is unavailable, use the manual Copilot assignment fallback during Phase 4.
+4. Open the repository **Actions** tab and wait for **01 - Triage issue** to finish successfully.
+5. Return to the issue and confirm it has:
+   - one `area:*` label,
+   - one `kind:*` label,
+   - one `priority:*` label,
+   - one `complexity:*` label,
+   - `status:triaged`, and
+   - an automated triage comment.
+6. Open the Project from Step E and confirm the issue is in **Triage**.
+
+#### Approve and route the issue
+
+7. Return to the issue and add `ready-for-building`.
+8. Wait for **Sync issue to GitHub Project** to finish, then confirm the Project Status is **Ready**.
+9. Open the repository **Actions** tab.
+10. In the left workflow list, select **02 - Route top ready issues**.
+11. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
+12. Wait for the new workflow run to appear and finish successfully.
+13. Return to the issue and confirm it has a routing comment and exactly one `agent:*` label.
+
+#### Clean up
+
+14. Close the temporary issue without adding `develop-with-ai`; this avoids starting Copilot implementation for the test item.
+
+**Setup checkpoint:** the labels and triage comment exist, the Project moved from **Triage** to **Ready**, routing added exactly one `agent:*` label, all four repository variables exist, and both secret names appear in Actions settings.
+
+**Setup recovery:** open the failed workflow run before continuing. If Project sync is skipped, recheck the `PROJECT_*` variables, `PROJECT_TOKEN` scope, and exact Status option names. If routing finds no issue, confirm the test issue is open and has both `status:triaged` and `ready-for-building`.
 
 Official references:
 
