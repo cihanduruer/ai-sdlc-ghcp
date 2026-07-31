@@ -242,16 +242,18 @@ Never reuse `COPILOT_AGENT_TOKEN` here or expose either token in an issue, workf
 #### Approve and route the issue
 
 7. Return to the issue and add `ready-for-building`.
-8. Wait for **Sync issue to GitHub Project** to finish, then confirm the Project Status is **Ready**.
-9. Open the repository **Actions** tab.
-10. In the left workflow list, select **02 - Route top ready issues**.
-11. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
-12. Wait for the new workflow run to appear and finish successfully.
-13. Return to the issue and confirm it has a routing comment and exactly one `agent:*` label.
+8. Adding the label automatically starts **Sync issue to GitHub Project**; you do not run this workflow manually.
+9. Open the repository **Actions** tab, select **Sync issue to GitHub Project**, and wait for the newest run to show a green checkmark.
+10. Open the Project created in Step E. Find the `Setup smoke test` card and confirm that it moved from **Triage** to **Ready**. This proves the label-driven Project synchronization is working.
+11. Return to the repository **Actions** tab.
+12. In the left workflow list, select **02 - Route top ready issues**.
+13. Select **Run workflow**, keep the branch set to `main`, then select the green **Run workflow** button.
+14. Wait for the new workflow run to appear and finish successfully.
+15. Return to the issue and confirm it has a routing comment and exactly one `agent:*` label.
 
 #### Clean up
 
-14. Close the temporary issue without adding `develop-with-ai`; this avoids starting Copilot implementation for the test item.
+16. Close the temporary issue without adding `develop-with-ai`; this avoids starting Copilot implementation for the test item.
 
 **Setup checkpoint:** the labels and triage comment exist, the Project moved from **Triage** to **Ready**, routing added exactly one `agent:*` label, all four repository variables exist, and both secret names appear in Actions settings.
 
