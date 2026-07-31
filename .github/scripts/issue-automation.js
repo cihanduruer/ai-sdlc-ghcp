@@ -9,6 +9,13 @@ function hasAny(text, words) {
   return words.some((word) => text.includes(word))
 }
 
+function hasAnyKeyword(text, words) {
+  return words.some((word) => {
+    const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return new RegExp(`\\b${escaped}\\b`).test(text)
+  })
+}
+
 function classifyIssue(title, body = '') {
   const text = `${title}\n${body}`.toLowerCase()
   const frontend = hasAny(text, [
@@ -19,7 +26,7 @@ function classifyIssue(title, body = '') {
     '.net', 'backend', 'back-end', 'api', 'endpoint', 'database', 'sqlite', 'entity framework',
     'booking rule', 'validation', 'server'
   ])
-  const automation = hasAny(text, [
+  const automation = hasAnyKeyword(text, [
     'workflow', 'github action', 'automation', 'powershell', 'bash', 'script', 'cli', 'pipeline'
   ])
   const documentation = hasAny(text, [

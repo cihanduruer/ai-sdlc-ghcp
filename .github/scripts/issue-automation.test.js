@@ -45,6 +45,16 @@ test('routes scripts to Copilot CLI', () => {
   assert.equal(route.label, 'agent:copilot-cli')
 })
 
+test('does not classify description text as a script', () => {
+  const result = classifyIssue(
+    '[Requirement] Add hotel highlights to the home page',
+    'The page needs a hotel description, customer reviews, awards, highlights, and more visual detail.'
+  )
+
+  assert.equal(result.area, 'area:frontend')
+  assert.equal(result.kind, 'kind:feature')
+})
+
 test('selects custom agents from classified work areas', () => {
   assert.equal(chooseCustomAgent(['area:frontend']), 'frontend')
   assert.equal(chooseCustomAgent(['area:full-stack']), 'fullstack')
