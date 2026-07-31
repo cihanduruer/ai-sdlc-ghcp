@@ -130,8 +130,8 @@ Open **Settings > Secrets and variables > Actions > Variables**.
 | Variable | What to enter | How the workflows use it |
 | --- | --- | --- |
 | `HUMAN_MAINTAINER` | Your GitHub username, without `@` | The daily router assigns work selected for VS Code, Copilot CLI, or human handling to this account. |
-| `PROJECT_OWNER` | The login of the user or organization that owns the Project | Project-sync workflows use this login to locate the Project created in Step E. |
-| `PROJECT_OWNER_TYPE` | `user` for a personal Project or `organization` for an organization Project | Tells the GitHub GraphQL API which owner type to query. |
+| `PROJECT_OWNER` | The account login found after `/users/` or `/orgs/` in the Project URL, without `@` | Project-sync workflows use this login to locate the Project created in Step E. This may differ from the repository owner. |
+| `PROJECT_OWNER_TYPE` | `user` when the URL contains `/users/`; `organization` when it contains `/orgs/` | Tells the GitHub GraphQL API whether to search a personal account or an organization. Enter only one of these exact lowercase values. |
 | `PROJECT_NUMBER` | Your Project's number from its URL | Identifies the specific Project whose `Status` field the workflows update. |
 
 Derive the three `PROJECT_*` values from the Project URL instead of copying the examples:
@@ -139,16 +139,17 @@ Derive the three `PROJECT_*` values from the Project URL instead of copying the 
 1. Open the Project created in Step E and copy its URL from the browser address bar.
 2. Match the URL to the correct pattern:
 
-   | Project URL pattern | `PROJECT_OWNER_TYPE` | `PROJECT_OWNER` | `PROJECT_NUMBER` |
-   | --- | --- | --- | --- |
-   | `https://github.com/users/<login>/projects/<number>` | `user` | `<login>` | `<number>` |
-   | `https://github.com/orgs/<login>/projects/<number>` | `organization` | `<login>` | `<number>` |
+   | Project URL pattern | Meaning | `PROJECT_OWNER_TYPE` | `PROJECT_OWNER` | `PROJECT_NUMBER` |
+   | --- | --- | --- | --- | --- |
+   | `https://github.com/users/<login>/projects/<number>` | The Project belongs to a personal GitHub account. | `user` | `<login>` after `/users/` | `<number>` after `/projects/` |
+   | `https://github.com/orgs/<login>/projects/<number>` | The Project belongs to a GitHub organization. | `organization` | `<login>` after `/orgs/` | `<number>` after `/projects/` |
 
-3. Use the number immediately after `/projects/`. If the open Board URL continues with `/views/1`, ignore the view number. For example, in `/projects/12/views/1`, the Project number is `12`, not `1`.
-4. Validate the values by constructing one of these URLs with your entries and opening it:
+3. Do not infer these values from the repository URL. A repository and a Project can have different owners; always use the **Project URL**.
+4. Use the number immediately after `/projects/`. If the open Board URL continues with `/views/1`, ignore the view number. For example, in `/projects/12/views/1`, the Project number is `12`, not `1`.
+5. Validate the values by constructing one of these URLs with your entries and opening it:
    - personal Project: `https://github.com/users/PROJECT_OWNER/projects/PROJECT_NUMBER`
    - organization Project: `https://github.com/orgs/PROJECT_OWNER/projects/PROJECT_NUMBER`
-5. Continue only if that URL opens the Project created in Step E. A different Project or a 404 means at least one value is incorrect.
+6. Continue only if that URL opens the Project created in Step E. A different Project or a 404 means at least one value is incorrect.
 
 ![Actions variables page with New repository variable highlighted](images/setup/04-repository-variables.png)
 
