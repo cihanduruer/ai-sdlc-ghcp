@@ -14,19 +14,19 @@ Complete this section once for your workshop repository before starting Phase 0.
 
 ### A. Create the empty repository and copy the workshop kit
 
-1. Create an empty GitHub repository named `northstar-hotel-<your-handle>`. Do not initialize it with a README.
+1. Create an empty GitHub repository named for example `northstar-hotel`. Do not initialize it with a README.
 2. Clone it and open it in VS Code:
 
    ```powershell
-   gh repo clone <OWNER>/northstar-hotel-<your-handle>
-   Set-Location northstar-hotel-<your-handle>
+   gh repo clone <YOUR-OWNER-HANDLE>/northstar-hotel
+   Set-Location northstar-hotel
    code .
    ```
 
 3. Copy the workshop kit without copying the reference application:
 
    ```powershell
-   git remote add workshop <WORKSHOP_REPOSITORY_GIT_URL>
+   git remote add workshop https://github.com/cihanduruer/ai-sdlc-ghcp.git
    git fetch workshop main
    git checkout workshop/main -- .github .vscode .editorconfig .gitignore .npmrc
    git add .
@@ -211,7 +211,7 @@ Official references:
 
 **Checkpoint:** `http://localhost:5173` displays rooms; booking creates data; tests pass; a local `.db` file is ignored by Git.
 
-**Recovery:** compare with the reference implementation in `<WORKSHOP_REPOSITORY_URL>`. Do not copy the whole solution unless ten minutes remain.
+**Recovery:** compare with the [reference implementation](https://github.com/cihanduruer/ai-sdlc-ghcp). Do not copy the whole solution unless ten minutes remain.
 
 ## Phase 2 - Create workload and observe triage (30-42 minutes)
 
